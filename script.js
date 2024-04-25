@@ -6,21 +6,27 @@ const lowerCase = "abcdefghijklmnopqrstuvwxyz";
 const number = "0123456789";
 const symbol = "!@#$%&*__";
 
-const allChars = upperCase + lowerCase + number + symbol;
+const allChars = [upperCase, lowerCase, number, symbol].join("");
 
 // Create random password
 const createPassword = () => {
-    let password = "";
-    password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
-    
-    while(length > password.length) {
-        password += allChars[Math.floor(Math.random() * allChars.length)];
-    }
-    passwordBox.value = password;
-}
+  let password = lowerCase.charAt(Math.floor(Math.random() * lowerCase.length));
+
+  while (length > password.length) {
+    password += allChars.charAt(Math.floor(Math.random() * allChars.length));
+  }
+  passwordBox.value = password;
+};
 
 // Copy generated password
 const copyPassword = () => {
-    passwordBox.select();
-    document.execCommand('copy'); 
-}
+  passwordBox.select();
+  navigator.clipboard
+    .writeText(passwordBox.value)
+    .then(() => {
+      console.log("Password copied to clipboard");
+    })
+    .catch((err) => {
+      console.error("Failed to copy password: ", err);
+    });
+};
